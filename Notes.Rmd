@@ -1,5 +1,7 @@
 ---
-title: "Untitled"
+title: "Introduction to Bioconductor Notes"
+author: Renji
+Date: "May 31, 2020"
 output: html_document
 ---
 
@@ -7,22 +9,33 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+# Molecular Basis for Phenotypic Variation
+• Phenotypic variation depends on differences in the DNA and also on differences in which parts of the DNA are expressed as proteins.
+• We use genomic technologies to measure differences in DNA and gene expression, such as changes in the sequence or amounts of expression, and relate those changes to phenotypic variation.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+# DNA: chromosomes, replication, SNPs and other variants
+• Single Nucleotide Polymorphism (SNP): a single base in the genome that often differs between individuals and may cause phenotypic differences. #个体间通常非一致的单碱基位点，并且造成表型变化
+• Genome-wide association studies (GWAS) are a major tool of genetic epidemiologists. 
+```{r}
+library(GenomicRanges)
+library(gwascat)
+data(ebicat37)
+ebicat37
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r number of GWAS hits on each chromosome}
+sort(table(ebicat37$CHR_ID),decreasing=TRUE)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r access the names of diseases with genetic associations }
+mcols(ebicat37)[,"DISEASE/TRAIT"]
+```
+
+# Molecular biology concepts
+• There are varies RNA copies of a given gene. 
+Reason: The number of copies of RNA depends on how much the gene is being transcribed. “Housekeeping genes” such as those used to make ribosomal or transfer RNA are transcribed at a high rate, while others, such as mRNA for some transcription factors, are transcribed less frequently. Some genes are not transcribed at all in certain cell types.
+
+# Microarray technology
+• Gene expression microarrays: More copies of a gene in a sample results in higher fluorescence intensity at the corresponding probe.
+• The raw values that come out of a gene expression microarray experiment: the hybridization of RNA or cDNA to probes
+• Example of applications: classifying tumor samples from various patients into distinct phenotypic classes
